@@ -1,11 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
@@ -28,24 +23,36 @@ namespace DataAccess.Repositories
             return product;
         }
 
-        public Task DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var product = await _dbcontext.Products.FindAsync(id);
+
+            if (product != null) return;
+
+            _dbcontext.Products.Remove(product);
+
+            await _dbcontext.SaveChangesAsync();
+
         }
 
-        public Task<ICollection<Product>> GetAllProducts()
+        public async Task<ICollection<Product>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            return await _dbcontext.Products.ToListAsync();
         }
 
-        public Task<Product> GetProductById(int id)
+        public async Task<Product> GetProductById(int id)
         {
-            throw new NotImplementedException();
+            return await _dbcontext.Products.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Product> UpdateProduct(Product product, int id)
+        public async Task<Product> UpdateProduct(Product product, int id)
         {
-            throw new NotImplementedException();
+            var objproduct = await _dbcontext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            objproduct.ProductCode = product.ProductCode;
+            objproduct.ProductName = product.ProductName;
+            objproduct.ModifactionDate = DateTime.Now;
+            await _dbcontext.SaveChangesAsync(); return objproduct;
+
         }
     }
 }
