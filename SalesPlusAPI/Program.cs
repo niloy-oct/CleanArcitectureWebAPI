@@ -1,21 +1,18 @@
-using Application.Abstractions;
 using Application.Posts.Commands;
 using Application.Posts.Queries;
-using DataAccess;
-using DataAccess.Repositories;
 using Domain.Models;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using SalesPlusAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-var connection = builder.Configuration.GetConnectionString("LocalSqlServer");
-
-builder.Services.AddDbContext<APIDbContext>(opt => opt.UseSqlServer(connection));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddMediatR(typeof(CreateProduct));
-
+builder.ResisterServices();
 
 var app = builder.Build();
+
+
+
+
+
 
 app.MapGet("/api/products/{id}", async (IMediator mediator, int id) =>
 {
@@ -23,9 +20,6 @@ app.MapGet("/api/products/{id}", async (IMediator mediator, int id) =>
     var product = await mediator.Send(getProduct);
     return Results.Ok(product);
 }).WithName("GetProductById");
-
-
-
 
 
 

@@ -27,7 +27,7 @@ namespace DataAccess.Repositories
         {
             var product = await _dbcontext.Products.FindAsync(id);
 
-            if (product != null) return;
+            if (product == null) return;
 
             _dbcontext.Products.Remove(product);
 
