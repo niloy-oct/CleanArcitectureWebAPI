@@ -16,8 +16,7 @@ namespace DataAccess.Repositories
 
         public async Task<Product> CreateProduct(Product product)
         {
-            product.ProductCode = "";
-            product.ProductName = "";
+       
             product.CreationDate = DateTime.Now;
             _dbcontext.Products.Add(product);
             await _dbcontext.SaveChangesAsync();
@@ -51,7 +50,6 @@ namespace DataAccess.Repositories
             var objproduct = await _dbcontext.Products.FirstOrDefaultAsync(x => x.Id == id);
             objproduct.ProductCode = command.ProductCode;
             objproduct.ProductName = command.ProductName;
-
             objproduct.ModifactionDate = DateTime.Now;
 
             await _dbcontext.SaveChangesAsync();
