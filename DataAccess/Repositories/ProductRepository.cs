@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Posts.Commands;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,14 +46,17 @@ namespace DataAccess.Repositories
             return await _dbcontext.Products.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Product> UpdateProduct(Product product, int id)
+        public async Task<Product> UpdateProduct(UpdateProduct command, int id)
         {
             var objproduct = await _dbcontext.Products.FirstOrDefaultAsync(x => x.Id == id);
-            objproduct.ProductCode = product.ProductCode;
-            objproduct.ProductName = product.ProductName;
-            objproduct.ModifactionDate = DateTime.Now;
-            await _dbcontext.SaveChangesAsync(); return objproduct;
+            objproduct.ProductCode = command.ProductCode;
+            objproduct.ProductName = command.ProductName;
 
+            objproduct.ModifactionDate = DateTime.Now;
+
+            await _dbcontext.SaveChangesAsync();
+
+            return objproduct;
         }
     }
 }

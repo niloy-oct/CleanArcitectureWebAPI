@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Application.Posts.Commands;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace Application.Abstractions
         Task<Product> GetProductById(int id);
         Task<Product> CreateProduct(Product product);
 
-        Task<Product> UpdateProduct(Product product, int id);
+        Task<Product> UpdateProduct(UpdateProduct command, int id);
         Task DeleteProduct(int id);
-        
+       
     }
 }
